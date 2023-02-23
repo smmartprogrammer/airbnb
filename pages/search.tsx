@@ -1,21 +1,34 @@
-import { Main } from "next/document";
 import { useRouter } from "next/router";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import { format } from "date-fns";
 import InfoCards from "../Components/InfoCards";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { title } from "process";
 
-function Search({ searchResults }) {
+interface SearchProps {
+  searchResults: {
+    img: string;
+    location: string;
+    title: string;
+    description: string;
+    star: string;
+    price: string;
+    total: string;
+  }[] ;
+}
+
+// interface DateFormat = {
+//   startDate: Date | number
+//   endDate: Date | number
+// }
+
+function Search({ searchResults }: SearchProps) {
   const router = useRouter();
 
-  console.log(searchResults);
 
   const { location, startDate, endDate, noOfGuests } = router.query;
 
-  const formattedStarDate = format(new Date(startDate), "dd MMMM yy");
-  const formattedEndDate = format(new Date(endDate), "dd MMMM yy");
+  const formattedStarDate = format(new Date(startDate as string) , "dd MMMM yy");
+  const formattedEndDate = format(new Date(endDate as string), "dd MMMM yy");
 
   const range = `${formattedStarDate} - ${formattedEndDate}`;
 
@@ -38,7 +51,7 @@ function Search({ searchResults }) {
             <p className="button">More Filters</p>
           </div>
           <div className="flex flex-col">
-            {searchResults?.map(
+            {searchResults.map(
               ({ img, location, title, description, star, price, total }) => (
                 <InfoCards
                   key={img}
@@ -62,18 +75,13 @@ function Search({ searchResults }) {
 
 export default Search;
 
-type Data = {
-  name: string;
-};
-
-export async function getServerSideProps() {
-  const searchResults = await fetch("https://links.papareact.com/isz").then(
-    (res) => res.json()
-  )
+export async function  getServerSideProps() {
+  const searchResults = await fetch("https://links.papareact.com/isz").then
+  (res => res.json);
 
   return {
     props: {
-      searchResults,
+      searchResults: searchResults,
     },
   };
-}
+};

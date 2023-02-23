@@ -8,8 +8,27 @@ import MediumCard from "../Components/MediumCard";
 import LargeCard from "../Components/LargeCard";
 import Footer from "../Components/Footer";
 import { type } from "os";
+import { Interface } from "readline";
 
-export default function Home({ exploreData, cardsData }){
+interface exploreDataProps {
+  exploreData: {
+    img: string;
+    distance: string;
+    location: string;
+  };
+}
+
+interface cardsDataProps {
+  cardsData: {
+    img: string;
+    title: string;
+  };
+}
+
+export default function Home(
+  { exploreData, cardsData }: exploreDataProps,
+  cardsDataProps
+) {
   return (
     <div className="">
       <Head>
@@ -51,14 +70,6 @@ export default function Home({ exploreData, cardsData }){
     </div>
   );
 }
-
-// type exploreData= any
-
-// type exploreData= {
-// img?: any;
-//   distance: "string";
-//   location: "string";
-// }
 
 async function getStaticProps() {
   const exploreData = await fetch("https://links.papareact.com/pyp").then(
