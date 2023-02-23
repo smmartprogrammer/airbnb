@@ -11,24 +11,23 @@ import { type } from "os";
 import { Interface } from "readline";
 import { GetStaticProps } from 'next'
 
-interface exploreDataProps {
+interface homeProps {
   exploreData: {
     img: string;
     distance: string;
     location: string;
+    
   };
+  cardsData : {
+    img: string;
+    title:string
+  }
 }
 
-interface cardsDataProps {
-  cardsData: {
-    img: string;
-    title: string;
-  };
-}
 
 export default function Home(
-  { exploreData, cardsData }: exploreDataProps,
-  cardsDataProps
+  { exploreData, cardsData }: homeProps
+  
 ) {
   return (
     <div className="">
@@ -72,7 +71,7 @@ export default function Home(
   );
 }
 
-async function getStaticProps() {
+export const getStaticProps: GetStaticProps  = async()=> {
   const exploreData = await fetch("https://links.papareact.com/pyp").then(
     (res) => res.json()
   );
