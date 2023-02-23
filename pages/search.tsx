@@ -3,6 +3,7 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import { format } from "date-fns";
 import InfoCards from "../Components/InfoCards";
+import { GetServerSideProps } from "next";
 
 interface SearchProps {
   searchResults: {
@@ -16,18 +17,12 @@ interface SearchProps {
   }[] ;
 }
 
-// interface DateFormat = {
-//   startDate: Date | number
-//   endDate: Date | number
-// }
-
 function Search({ searchResults }: SearchProps) {
   const router = useRouter();
 
-
   const { location, startDate, endDate, noOfGuests } = router.query;
 
-  const formattedStarDate = format(new Date(startDate as string) , "dd MMMM yy");
+  const formattedStarDate = format(new Date(startDate as string), "dd MMMM yy");
   const formattedEndDate = format(new Date(endDate as string), "dd MMMM yy");
 
   const range = `${formattedStarDate} - ${formattedEndDate}`;
@@ -75,9 +70,20 @@ function Search({ searchResults }: SearchProps) {
 
 export default Search;
 
-export async function  getServerSideProps() {
-  const searchResults = await fetch("https://links.papareact.com/isz").then
-  (res => res.json);
+// type searchResultsProps = {
+//   img: string;
+//   location: string;
+//   title: string;
+//   description: string;
+//   star: string;
+//   price: string;
+//   total: string;
+// };
+// <{  searchResults: searchResultsProps}>;
+export const getServerSideProps: GetServerSideProps
+ = async () => {
+  const res = await fetch("https://links.papareact.com/isz");
+  const searchResults = await res.json();
 
   return {
     props: {

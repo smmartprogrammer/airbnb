@@ -9,6 +9,7 @@ import LargeCard from "../Components/LargeCard";
 import Footer from "../Components/Footer";
 import { type } from "os";
 import { Interface } from "readline";
+import { GetStaticProps } from 'next'
 
 interface exploreDataProps {
   exploreData: {
@@ -41,7 +42,7 @@ export default function Home(
         <section className="pt-6">
           <h2 className="text-4xl font-semibold pb-5">Explore nearby</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {exploreData?.map(({ img, distance, location }) => (
+            {exploreData.map(({ img, distance, location }) => (
               <SmallCards
                 key={img}
                 img={img}
